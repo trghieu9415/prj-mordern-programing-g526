@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>Presentation</RootNamespace>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mv.Application\Mv.Application.csproj" />
+    <ProjectReference Include="..\Mv.Application\Mv.Application.csproj"/>
   </ItemGroup>
 
 </Project>
