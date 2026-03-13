@@ -1,3 +1,3 @@
-﻿namespace Presentation.Adapters.Security;
+﻿namespace Mv.Presentation.Adapters.Security;
 
 public class CurrentUser {}

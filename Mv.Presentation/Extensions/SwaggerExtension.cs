@@ -1,3 +1,3 @@
-﻿namespace Presentation.Extensions;
+﻿namespace Mv.Presentation.Extensions;
 
 public class SwaggerExtension {}
