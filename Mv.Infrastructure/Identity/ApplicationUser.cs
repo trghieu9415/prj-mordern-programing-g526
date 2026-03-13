@@ -1,3 +1,3 @@
-﻿namespace Infrastructure.Identity;
+﻿namespace Mv.Infrastructure.Identity;
 
 public class ApplicationUser {}

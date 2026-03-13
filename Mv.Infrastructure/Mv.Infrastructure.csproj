@@ -7,7 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.12"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.12"/>
+
   </ItemGroup>
- 
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mv.Application\Mv.Application.csproj"/>
+    <ProjectReference Include="..\Mv.Domain\Mv.Domain.csproj"/>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Adapters\"/>
+  </ItemGroup>
+
+
 </Project>

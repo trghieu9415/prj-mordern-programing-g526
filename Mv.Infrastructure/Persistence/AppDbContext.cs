@@ -1,3 +1,3 @@
-﻿namespace Infrastructure.Persistence;
+﻿namespace Mv.Infrastructure.Persistence;
 
 public class AppDbContext {}
