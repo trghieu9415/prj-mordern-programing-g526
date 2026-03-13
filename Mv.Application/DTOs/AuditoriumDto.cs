@@ -1,3 +1,8 @@
-﻿namespace Mv.Application.DTOs;
+﻿using Mv.Application.DTOs.Base;
 
-public class AuditoriumDto {}
+namespace Mv.Application.DTOs;
+
+public record AuditoriumDto : IdDto {
+  public string Name { get; init; } = null!;
+  public List<SeatDto> Seats { get; init; } = [];
+}

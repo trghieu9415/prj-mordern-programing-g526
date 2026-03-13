@@ -1,3 +1,8 @@
-﻿namespace Mv.Application.DTOs;
+﻿using Mv.Application.DTOs.Base;
 
-public class SeatDto {}
+namespace Mv.Application.DTOs;
+
+public record SeatDto : IdDto {
+  public char Row { get; init; }
+  public int Number { get; init; }
+}
