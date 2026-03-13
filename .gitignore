@@ -1,10 +1,8 @@
 bin/
 obj/
 out/
-
+.env
 [Mm]igrations/
-
-appsettings.json
 
 .vs/
 *.user
