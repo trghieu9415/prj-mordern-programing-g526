@@ -17,7 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mv.Application\Mv.Application.csproj"/>
     <ProjectReference Include="..\Mv.Infrastructure\Mv.Infrastructure.csproj"/>
-    <ProjectReference Include="..\Mv.Workder\Mv.Workder.csproj"/>
+    <ProjectReference Include="..\Mv.Worker\Mv.Worker.csproj"/>
   </ItemGroup>
 
 </Project>
