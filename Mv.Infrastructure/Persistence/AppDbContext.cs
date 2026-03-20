@@ -1,4 +1,4 @@
-﻿using System.Data;
+using System.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -34,7 +34,7 @@ public class AppDbContext(
       throw;
     } finally {
       if (_currentTransaction != null) {
-        _currentTransaction.Dispose();
+        await _currentTransaction.DisposeAsync();
         _currentTransaction = null;
       }
     }
@@ -47,13 +47,13 @@ public class AppDbContext(
       }
     } finally {
       if (_currentTransaction != null) {
-        _currentTransaction.Dispose();
+        await _currentTransaction.DisposeAsync();
         _currentTransaction = null;
       }
     }
   }
 
-  /*protected override void OnModelCreating(ModelBuilder modelBuilder) {
+  protected override void OnModelCreating(ModelBuilder modelBuilder) {
     modelBuilder.HasPostgresExtension("pg_trgm");
     base.OnModelCreating(modelBuilder);
 
@@ -63,5 +63,5 @@ public class AppDbContext(
     modelBuilder.AddOutboxStateEntity();
 
     modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-  }*/
+  }
 }

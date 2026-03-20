@@ -1,42 +1,130 @@
-﻿using Mv.Application.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Mv.Application.Exceptions;
+using Mv.Application.Models;
 using Mv.Application.Ports.Security;
+using Mv.Infrastructure.Exceptions;
+using Mv.Infrastructure.Persistence.Identity;
 
 namespace Mv.Infrastructure.Adapters.Security;
 
-public class UserService : IUserService {
-  public Task<User?> GetByIdAsync(Guid id, UserRole? role, CancellationToken ct = default) {
-    throw new NotImplementedException();
+public class UserService(
+  UserManager<AppUser> userManager
+) : IUserService {
+  public async Task<Guid> CreateAsync(
+    User user,
+    string password,
+    UserRole role,
+    CancellationToken ct = default
+  ) {
+    var appUser = new AppUser {
+      Id = Guid.NewGuid(),
+      UserName = user.Email,
+      Email = user.Email,
+      FullName = user.FullName,
+      PhoneNumber = user.PhoneNumber,
+      Url = user.Url,
+      Role = role
+    };
+    await userManager.CreateAsync(appUser, password);
+    return appUser.Id;
   }
 
-  public Task<(int total, List<User> users)> GetAsync(UserRole? role, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task UpdateAsync(User user, CancellationToken ct = default) {
+    var existingUser = await userManager.FindByIdAsync(user.Id.ToString());
+    if (existingUser == null || existingUser.IsDeleted) {
+      throw new WorkflowException($"Người dùng không tồn tại - Id: {user.Id}.", 404);
+    }
+
+    existingUser.FullName = user.FullName;
+    existingUser.PhoneNumber = user.PhoneNumber;
+    existingUser.Url = user.Url;
+
+    await userManager.UpdateAsync(existingUser);
   }
 
-  public Task<(int total, List<User> users)> GetDeletedAsync(UserRole? role, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task DeleteAsync(Guid id, CancellationToken ct = default) {
+    var user = await FindOrThrowAsync(id, ct);
+    if (user.Role == UserRole.Admin) {
+      throw new InfrastructureException("Không thể xóa người dùng quản trị");
+    }
+
+    user.Delete();
+    await userManager.UpdateAsync(user);
   }
 
-  public Task<Guid> CreateAsync(User user, string password, UserRole role, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task RestoreAsync(Guid id, CancellationToken ct = default) {
+    var user = await FindOrThrowAsync(id, ct);
+    user.Restore();
+    await userManager.UpdateAsync(user);
   }
 
-  public Task UpdateAsync(User user, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task LockAsync(Guid id, CancellationToken ct = default) {
+    var user = await FindOrThrowAsync(id, ct);
+    await userManager.SetLockoutEnabledAsync(user, true);
+    await userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
   }
 
-  public Task DeleteAsync(Guid id, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task UnlockAsync(Guid id, CancellationToken ct = default) {
+    var user = await FindOrThrowAsync(id, ct);
+    await userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
   }
 
-  public Task RestoreAsync(Guid id, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task<(int total, List<User> users)> GetAsync(
+    UserRole? role = UserRole.Customer,
+    CancellationToken ct = default
+  ) {
+    var query = userManager.Users.AsNoTracking()
+      .Where(u => u.Role == role && !u.IsDeleted);
+
+    var total = await query.CountAsync(ct);
+
+    var appUsers = await query.ToListAsync(ct);
+    var users = appUsers.Select(ToUser).ToList();
+    return (total, users);
   }
 
-  public Task LockAsync(Guid id, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task<User?> GetByIdAsync(Guid id, UserRole? role = UserRole.Customer, CancellationToken ct = default) {
+    var user = await userManager.Users
+      .FirstOrDefaultAsync(u => u.Id == id && u.Role == role, ct);
+
+    return user == null ? null : ToUser(user);
   }
 
-  public Task UnlockAsync(Guid id, CancellationToken ct = default) {
-    throw new NotImplementedException();
+  public async Task<(int total, List<User> users)> GetDeletedAsync(
+    UserRole? role = UserRole.Customer, CancellationToken ct = default
+  ) {
+    var query = userManager.Users.AsNoTracking()
+      .Where(u => u.Role == role && u.IsDeleted);
+
+    var total = await query.CountAsync(ct);
+
+    var appUsers = await query.ToListAsync(ct);
+    var users = appUsers.Select(ToUser).ToList();
+    return (total, users);
+  }
+
+  // NOTE: ========== [Helper Methods] ==========
+  private static User ToUser(AppUser appUser) {
+    if (appUser.Email == null) {
+      throw new InfrastructureException(
+        $"Lỗi chuyển đổi dữ liệu: người dùng hệ thống không có email - Id: {appUser.Id}"
+      );
+    }
+
+    return new User {
+      Id = appUser.Id,
+      FullName = appUser.FullName,
+      Email = appUser.Email,
+      PhoneNumber = appUser.PhoneNumber,
+      Url = appUser.Url,
+      IsActive = appUser.LockoutEnd == null,
+      Role = appUser.Role
+    };
+  }
+
+  private async Task<AppUser> FindOrThrowAsync(Guid id, CancellationToken ct) {
+    var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+    return user ?? throw new WorkflowException($"Người dùng không tồn tại - Id: {id}.", 404);
   }
 }
