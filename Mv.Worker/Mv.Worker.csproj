@@ -20,4 +20,13 @@
     <ProjectReference Include="..\Mv.Domain\Mv.Domain.csproj"/>
   </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DistributedLock" Version="2.8.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.12">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.12" />
+    </ItemGroup>
+
 </Project>
