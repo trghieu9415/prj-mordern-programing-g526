@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Mv.Infrastructure.Configs;
+using Mv.Infrastructure.Configs.Options;
 
 namespace Mv.Infrastructure.Extensions;
 
@@ -10,6 +11,14 @@ public static class OptionsExtensions {
     this IServiceCollection services,
     IConfiguration config
   ) {
+    services.RegisterOption<JwtOptions>(config);
+    services.RegisterOption<RedisOptions>(config);
+    services.RegisterOption<EmailOptions>(config);
+    services.RegisterOption<RabbitMqOptions>(config);
+    services.RegisterOption<S3Options>(config);
+    services.RegisterOption<StripeOptions>(config);
+    services.RegisterOption<PayPalOptions>(config);
+
     return services;
   }
 

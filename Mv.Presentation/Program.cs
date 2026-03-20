@@ -5,26 +5,27 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Infrastructure ---
+builder.Host.UseDefaultServiceProvider(options => {
+  options.ValidateOnBuild = false;
+  options.ValidateScopes = false;
+});
+
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Configuration.AddJsonFile("secrets.json", true, true);
 
-// --- Presentation Extension ---
+builder.Services.AddJwtAuthentication(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.AddCors();
+builder.Services.AddWebApiDefaults();
+builder.Services.AddSwaggerDocument();
 builder.AddSerilogCustom();
-
 builder.Services.AddHttpContextAccessor();
 
-
-// =========================================================================
-// || -_-_-_-_-_-_-_-_-_-_-_-_-_-_ APP BUILD _-_-_-_-_-_-_-_-_-_-_-_-_-_- ||
-// =========================================================================
 var app = builder.Build();
 
-// --- Custom Middlewares ---
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseHttpsRedirection();
 
-// --- Swagger UI ---
 if (app.Environment.IsDevelopment()) {
   app.UseSwagger();
   app.UseSwaggerUI(c => {
@@ -34,21 +35,17 @@ if (app.Environment.IsDevelopment()) {
   });
 }
 
-// --- Allow Static Files ---
 app.UseStaticFiles();
 
-// --- CORS ---
 app.UseCors(options => options
   .AllowAnyMethod()
   .AllowAnyHeader()
   .SetIsOriginAllowed(_ => true)
   .AllowCredentials());
 
-// --- Authentication & Authorization ---
 app.UseAuthentication();
 app.UseAuthorization();
 
-// --- Endpoints ---
 app.MapControllers();
 
 app.Run();

@@ -7,28 +7,42 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DistributedLock" Version="2.8.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.12" />
+    <PackageReference Include="AWSSDK.S3" Version="4.0.19.1"/>
+    <PackageReference Include="MassTransit" Version="9.0.1"/>
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="9.0.1"/>
+    <PackageReference Include="Stripe.net" Version="50.4.0"/>
+    <PackageReference Include="DistributedLock" Version="2.8.0"/>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1"/>
+    <PackageReference Include="MailKit" Version="4.15.0"/>
+    <PackageReference Include="MediatR" Version="14.0.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.12"/>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.12"/>
+    <PackageReference Include="Bogus" Version="35.6.5"/>
     <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.12"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.12"/>
-
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.12"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0"/>
+    <PackageReference Include="Npgsql" Version="10.0.2"/>
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="8.5.7"/>
+    <PackageReference Include="MassTransit.Quartz" Version="8.5.7"/>
   </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\Mv.Application\Mv.Application.csproj"/>
     <ProjectReference Include="..\Mv.Domain\Mv.Domain.csproj"/>
   </ItemGroup>
 
-
   <ItemGroup>
-    <Folder Include="Adapters\"/>
+    <None Update="Persistence\Scripts\tables_postgres.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Email\*.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-
 
 </Project>
