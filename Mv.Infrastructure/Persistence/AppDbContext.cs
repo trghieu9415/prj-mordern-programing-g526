@@ -54,7 +54,14 @@ public class AppDbContext(
   }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder) {
+    modelBuilder.HasPostgresExtension("pg_trgm");
     base.OnModelCreating(modelBuilder);
+
+    // NOTE: ========== [MassTransit Outbox Entities] ==========
+    modelBuilder.AddInboxStateEntity();
+    modelBuilder.AddOutboxMessageEntity();
+    modelBuilder.AddOutboxStateEntity();
+
     modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
   }
 }

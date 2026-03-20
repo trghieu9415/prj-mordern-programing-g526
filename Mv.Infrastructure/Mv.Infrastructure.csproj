@@ -7,25 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DistributedLock" Version="2.8.0"/>
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1"/>
-    <PackageReference Include="MailKit" Version="4.15.0"/>
-    <PackageReference Include="MediatR" Version="14.0.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.12"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.12"/>
+    <PackageReference Include="DistributedLock" Version="2.8.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="MailKit" Version="4.15.0" />
+    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.12" />
+    <PackageReference Include="Bogus" Version="35.6.5" />
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.12">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.12"/>
-    <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0"/>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0"/>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="9.0.12" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+    <PackageReference Include="Npgsql" Version="10.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mv.Application\Mv.Application.csproj"/>
-    <ProjectReference Include="..\Mv.Domain\Mv.Domain.csproj"/>
+    <ProjectReference Include="..\Mv.Application\Mv.Application.csproj" />
+    <ProjectReference Include="..\Mv.Domain\Mv.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
