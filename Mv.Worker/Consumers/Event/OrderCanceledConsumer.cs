@@ -1,5 +1,4 @@
-﻿using Mv.Domain.Events;
-using MassTransit;
+﻿using MassTransit;
 using Mv.Application.Constants;
 using Mv.Application.Ports.Realtime;
 using Mv.Domain.Events;

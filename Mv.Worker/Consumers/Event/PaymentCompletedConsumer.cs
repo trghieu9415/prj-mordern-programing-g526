@@ -1,9 +1,9 @@
-﻿using Mv.Domain.Events;
-using MassTransit;
-using MediatR;
+﻿using MassTransit;
+using MassTransit.Mediator;
 using Mv.Application.Constants;
 using Mv.Application.Ports.Realtime;
 using Mv.Application.UseCases.System.MarkOrderAsPaid;
+using Mv.Domain.Events;
 
 namespace Mv.Worker.Consumers.Event;
 

@@ -12,7 +12,7 @@ public static class InfrastructureConfiguration {
       .AddIdentityInfrastructure()
       .AddDistributedInfrastructure()
       .AddMediatorPipeline()
-      .AddAuthSupportServices();
+      .AddExternalServices();
 
     return services;
   }
