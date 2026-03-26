@@ -5,6 +5,7 @@ namespace Mv.Domain.Events;
 public record OrderCompletedEvent(
   Guid OrderId,
   Guid CustomerId,
+  string Email,
   Guid ShowtimeId,
   ICollection<Guid> SeatIds
 ) : DomainEvent {
