@@ -45,14 +45,14 @@ public class Order : BaseEntity {
   }
 
 
-  public void MarkAsPaid() {
+  public void MarkAsPaid(string email) {
     if (Status != OrderStatus.Pending) {
       throw new DomainException("Chỉ có thể thanh toán đơn khi đơn ở trạng thái Chờ");
     }
 
     Status = OrderStatus.Confirmed;
     AddDomainEvent(new OrderCompletedEvent(
-      Id, CustomerId, ShowtimeId, Tickets.Select(x => x.SeatSnapshot.SeatId).ToList()
+      Id, CustomerId, email, ShowtimeId, Tickets.Select(x => x.SeatSnapshot.SeatId).ToList()
     ));
   }
 
